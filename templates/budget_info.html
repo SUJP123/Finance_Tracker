@@ -1,0 +1,51 @@
+<!-- templates/budget_info.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_budget_info.css') }}">
+    <title>Budget Information</title>
+</head>
+<body>
+    <form method="POST" action="{{ url_for('dashboard') }}" style="display: inline;">
+        <button type="submit">Go Back to Dashboard</button>
+    </form>
+
+    <h1>Budget Information</h1>
+    <!-- Add more content as needed -->
+
+  <p>Total budget for the current month: ${{ '%.2f'|format(total_budget) }}</p>
+  <p>Remaining budget for the current month: ${{ '%.2f'|format(remaining_budget) }}</p>
+
+  <p>Budget Information for Previous Months</p>
+
+    <!-- Display remaining and total budgets for previous months -->
+    {% for month, data in previous_months_budgets.items() %}
+        <h2>{{ month }} {{ data.year }}</h2>
+        <p>Remaining Budget: {{ data.remaining }}</p>
+        <p>Total Budget: {{ data.total }}</p>
+    {% endfor %}
+
+
+    <h2>Remaining Budget Over Previous Months</h2>
+    <div>
+        {% if previous_months_budgets %}
+    <img src="data:image/png;base64,{{ plot_data }}" alt="Remaining Budget Over Previous Months">
+    {% else %}
+    <p>No monthly data to plot</p>
+    {% endif %}
+    </div>
+
+    <h2>Budget spending by category</h2>
+    {% if plot_data_by_category %}
+    <div>
+        <img src="data:image/png;base64,{{ plot_data_by_category }}" alt="Spending by Category">
+    </div>
+{% else %}
+    <p>No data available for spending by category.</p>
+{% endif %}
+
+</body>
+</html>

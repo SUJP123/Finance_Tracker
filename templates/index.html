@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to the Personal Finance Manager</h1>
+        <p>Track your expenses and manage your budget effortlessly.</p>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('dashboard') }}" style="display: inline;">
+            <button type="submit">Go Back to Dashboard</button>
+        </form>
+
+        <form method="POST" action="/add_transactions" id="transactionForm">
+            <!-- Form fields -->
+            <label for="category">Category:</label>
+            <input type="text" name="category" id="category" required>
+
+            <label for="amount">Amount:</label>
+            <input type="number" name="amount" id="amount" step="0.01" required>
+
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" required>
+
+            <button type="submit" id="submitTransaction">Add Transaction</button>
+        </form>
+
+
+        <!-- Display Transactions Table -->
+        <h2>New Transactions</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.category }}</td>
+            <td>${{ transaction.amount }}</td>
+            <td>{{ transaction.date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    </div>
+</body>
+
+</html>

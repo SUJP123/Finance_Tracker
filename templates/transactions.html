@@ -1,0 +1,33 @@
+<!-- templates/transactions.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_transactions.css') }}">
+    <title>View/Delete Past Transactions</title>
+</head>
+<body>
+    <div class="container">
+    <h1>Transactions</h1>
+    
+    <form method="POST" action="{{ url_for('dashboard') }}" style="display: inline;">
+        <button type="submit">Go Back to Dashboard</button>
+    </form>
+
+    <ul>
+        {% for transaction in transactions %}
+            <li>
+                {{ transaction.category }} - ${{ '%.2f'|format(transaction.amount) }} - {{ transaction.date }}
+                <form method="POST" action="{{ url_for('delete_transaction', transaction_id=transaction.id) }}" style="display: inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div>
+</body>
+</html>
+

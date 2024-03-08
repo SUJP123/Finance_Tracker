@@ -1,0 +1,62 @@
+<!-- dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_dashboard.css') }}">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <h1>User Dashboard</h1>
+    <p class="heading">Welcome, {{ current_user.username }}!</p>
+
+
+
+<form action="{{ url_for('profile') }}" method="get">
+    <button type="submit">View Profile</button>
+</form>
+
+    <form class="index" action="/index" method="get">
+        <button type="submit">Add New Transactions</button>
+    </form>
+
+    <form action="/transactions" method="get">
+        <button type="submit" name="view_transactions">View/Edit Past Transactions</button>
+    </form>
+
+    <a href="{{ url_for('budget_info') }}">
+        <button type="button" class="btn btn-primary">View Budget Information</button>
+    </a>
+
+    <form action="{{ url_for('add_subscription') }}" method="GET">
+        <button type="submit" class="btn btn-primary">Edit Subscriptions</button>
+    </form>
+
+
+    <form class="logout" action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+
+    <h2>Monthly Budget</h2>
+<p>Your current monthly budget goal: ${{ '%.2f'|format(current_user.budget) }}</p>
+<p>Remaining Budget: ${{ '%.2f'|format(remaining_budget) }}</p>
+
+<form action="{{ url_for('set_budget') }}" method="post">
+    <label for="budget">Enter Monthly Budget:</label>
+    <input type="number" name="budget" id="budget" step="0.01" required>
+    <button type="submit">Set Monthly Budget</button>
+</form>
+
+
+
+    <h2>Transactions</h2>
+<ul>
+    {% for transaction in transactions %}
+        <li>{{ transaction.category }} - ${{ '%.2f'|format(transaction.amount) }} - {{ transaction.date }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

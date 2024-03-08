@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Subscription</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_subscriptions.css') }}">
+    <style>
+        /* Add some custom styles for better alignment */
+        label {
+            display: inline-block;
+            margin-bottom: 5px; /* Adjust this value as needed */
+        }
+
+        input[type="checkbox"] {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+    <form method="POST" action="{{ url_for('dashboard') }}" style="display: inline;">
+        <button type="submit">Go Back to Dashboard</button>
+    </form>
+    
+    <h2>Add Subscriptions</h2>
+
+    <form method="post" action="{{ url_for('add_subscription') }}">
+        <label for="name">Subscription Name:</label>
+        <input class="sub_inp" type="text" id="name" name="name" required>
+
+        <label for="billing_amount">Billing Amount:</label>
+        <input class="sub_inp" type="number" id="billing_amount" name="billing_amount" min="0.01" step="0.01" required>
+
+        <label for="billing_date">Billing Date:</label>
+        <input class="sub_inp" type="number" id="billing_date" name="billing_date" min="1" max="31" required>
+
+        <button type="submit">Add Subscription</button>
+
+    </form>
+    
+    <form method="POST" action="{{ url_for('cancel_subscription')}}">
+        <label for="cancel_subscription">Cancel Subscriptions:</label><br>
+        {% for subscription in existing_subscriptions %}
+                <input class="cancel_check" type="checkbox" name="cancel_subscriptions[]" value="{{ subscription.id }}">
+                {{ subscription.name }} - ${{ '%.2f'|format(subscription.billing_amount) }}
+            <br>
+        {% endfor %}
+
+        <button class="cancel_btn" type="submit" name="cancel_button" value="cancel">
+            Cancel Selected Subscriptions
+        </button>
+
+    <form>
+</body>
+</html>
