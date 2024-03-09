@@ -10,16 +10,19 @@
 </head>
 <body>
     <div class="container">
-    <h1>User Registration</h1>
-    <form method="POST" action="/register">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
+        <h1>User Registration</h1>
+        <form method="POST" action="/register">
+            <label for="username">Username:</label>
+            <input type="text" name="username" required>
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
 
-        <button type="submit">Register</button>
-    </form>
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" name="confirm_password" required>
+
+            <button type="submit">Register</button>
+        </form>
     </div>
 </body>
 </html>
